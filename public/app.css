@@ -1,0 +1,30 @@
+.alert {
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.alert.success {
+    background-color: #7ac78a
+}
+
+.alert.error {
+    background-color: #f86161;
+    color: white;
+}
+
+.flex {
+    display: flex;
+    align-items: baseline;
+}
+
+.grid {
+    display: grid;
+    align-items: baseline;
+}
+
+.gap {
+    gap: 20px;
+}

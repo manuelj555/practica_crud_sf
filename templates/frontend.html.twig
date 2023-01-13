@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <header></header>
+    <main class="container">
+        <h1>{% block page_header %}{% endblock %}</h1>
+
+        {{ include('flashes.html.twig') }}
+
+        <section>
+            {% block content %}
+            {% endblock %}
+        </section>
+    </main>
+    <footer></footer>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'frontend.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block page_header %}{{ block('title') }}{% endblock %}
+
+{% block content %}
+    <a role="button" href="{{ path('admin_category_create') }}">Create</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in categories %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.code }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.active ? 'Si' : 'No' }}</td>
+                    <td>
+                        <details role="list">
+                            <summary aria-haspopup="listbox">Acciones</summary>
+                            <ul role="listbox">
+                                <li><a href="{{ path('admin_category_edit', { id: item.id }) }}">Editar</a></li>
+                                {% if item.active %}
+                                    <li>
+                                        <a href="{{ path('admin_category_inactivate', { id: item.id }) }}"
+                                           class="js-confirm"
+                                        >Inactivar</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{{ path('admin_category_activate', { id: item.id }) }}"
+                                           class="js-confirm"
+                                        >Activar</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </details>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ block('confirmModal') }}
+    {{ block('js') }}
+{% endblock %}
+
+{% block confirmModal %}
+    <dialog id="modal-confirm">
+        <article>
+            <h5>Por favor, confirmar!</h5>
+            <p>
+                ¿Está seguro?
+            </p>
+            <footer>
+                <a href="#" role="button" class="secondary" id="modal-confirm-cancel">Cancel</a>
+                <a href="#" role="button" id="modal-confirm-confirm">Confirm</a>
+            </footer>
+        </article>
+    </dialog>
+{% endblock %}
+
+{% block js %}
+    <script>
+      const $modal = document.querySelector('#modal-confirm')
+      const $inactivateButtons = document.querySelectorAll('.js-confirm')
+
+      $inactivateButtons.forEach(($button) => {
+        $button.addEventListener('click', event => {
+          const url = event.target.href
+          event.preventDefault()
+          $modal.setAttribute('open', true)
+          document.getElementById('modal-confirm-confirm').setAttribute('href', url)
+        })
+      })
+
+      document.getElementById('modal-confirm-cancel').addEventListener('click', event => {
+        event.preventDefault()
+        $modal.removeAttribute('open')
+      })
+    </script>
+{% endblock %}
